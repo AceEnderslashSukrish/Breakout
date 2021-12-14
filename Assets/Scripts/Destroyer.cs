@@ -6,10 +6,19 @@ public class Destroyer : MonoBehaviour
 {
     [HideInInspector]
     public bool ballDestroyed = false;
+    private GameController gameControllerScript;
     // Start is called before the first frame update
     void Start()
     {
-        
+        GameObject gameControllerObject = GameObject.FindWithTag("GameController");
+        if (gameControllerObject != null)
+        {
+            gameControllerScript = gameControllerObject.GetComponent<GameController>();
+        }
+        else if (gameControllerObject == null)
+        {
+            Debug.Log("Cannot find game controller script on GameController Object");
+        }
     }
 
     // Update is called once per frame
@@ -18,9 +27,10 @@ public class Destroyer : MonoBehaviour
         
     }
 
-    private void OnTriggerEnter2D(Collider2D other)
+    void OnTriggerExit2D(Collider2D other)
     {
         ballDestroyed = true;
-        Destroy(other);
+        Destroy(other.gameObject);
+        gameControllerScript.BallCreator();
     }
 }

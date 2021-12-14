@@ -2,12 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class GameController : MonoBehaviour
 {
     [Header("Game Objects")]
     public GameObject ball;
+    public Transform player;
     private Destroyer destroyerScript;
+    private BallMover ballMoverScript;
 
     [Header("UI Objects")]
     public Text scoreText;
@@ -22,19 +25,21 @@ public class GameController : MonoBehaviour
     void Start()
     {
         UpdateScoreText();
-        ballCreator();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (destroyerScript.ballDestroyed)
+        if (restart)
         {
-            Instantiate(ball, transform.position, transform.rotation);
+            if (Input.GetKeyDown(KeyCode.R))
+            {
+                SceneManager.LoadScene("Main");
+            }
         }
     }
 
-    private void AddToScore(int scoreValueToAdd)
+    public void AddToScore(int scoreValueToAdd)
     {
         score += scoreValueToAdd;
         UpdateScoreText();
@@ -45,12 +50,12 @@ public class GameController : MonoBehaviour
         scoreText.text = $"Score: {score}";
     }
 
-    public void ballCreator()
+    public void BallCreator()
     {
         Instantiate(ball, transform.position, transform.rotation);
     }
 
-    public void PlayerWin(GameObject Player)
+    public void PlayerWin()
     {
         playerWin = true;
         playerWinText.SetActive(true);

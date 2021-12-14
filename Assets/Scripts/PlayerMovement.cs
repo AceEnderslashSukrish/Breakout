@@ -28,6 +28,16 @@ public class PlayerMovement : MonoBehaviour
         float vert = GetComponent<Transform>().position.y;
 
         Vector2 newVelocity = new Vector2(horiz, 0);
+
+        if (Input.GetKeyDown(KeyCode.LeftShift))
+        {
+            speed *= 2;
+        }
+        else if (Input.GetKeyUp(KeyCode.LeftShift))
+        {
+            speed /= 2;
+        }
+
         rBody.velocity = newVelocity * speed.x;
 
         float newX;
